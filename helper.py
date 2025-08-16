@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 def medal_tally(df):
     medal_tally = df.drop_duplicates(subset=['Team', 'NOC', 'Games', 'Year', 'City', 'Sport', 'Event', 'Medal'])
     medal_tally = medal_tally.groupby('NOC').sum()[['Gold', 'Silver', 'Bronze']].sort_values('Gold', ascending=False).reset_index()
@@ -42,6 +43,16 @@ def fetch_medal_tally(year, country, df):
 
 def data_over_time(df,col):
 
-    nations_over_time = df.drop_duplicates(['Year', col])['Year'].value_counts().reset_index().sort_values('index')
-    nations_over_time.rename(columns={'index': 'Edition', 'Year': col}, inplace=True)
+    nations_over_time = df.drop_duplicates(['Year', col])['Year'].value_counts().reset_index().sort_values('Year')
+    nations_over_time.rename(columns={'Year': 'Edition', 'count': col}, inplace=True)
     return nations_over_time
+
+def most_successful(df, sport):
+    temp_df = df.dropna(subset=['Medal'])
+
+    if sport != 'Overall':
+        temp_df = temp_df[temp_df['Sport'] == sport]
+
+    top = pd.merge(temp_df['Name'].value_counts().reset_index().head(15), df, on='Name', how='left')[['Name', 'count', 'region']].drop_duplicates('Name')
+    top.rename(columns={'count': 'Medals'}, inplace=True)
+    return top

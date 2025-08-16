@@ -4,6 +4,7 @@ import plotly.express as px
 import helper
 import preprocess
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 df = pd.read_csv('athlete_events.csv')
 region_df = pd.read_csv('noc_regions.csv')
@@ -96,6 +97,11 @@ if user_select  == 'Overall Analysis':
     st.pyplot(fig)
 
     st.title("Most successful Athletes")
-    sport_list = df['Sport'].unique().tolist()
+    sport_list = df['Sport'].dropna().unique().tolist()
     sport_list.sort()
     sport_list.insert(0, 'Overall')
+
+
+    selected_sport = st.selectbox('Select a Sport',sport_list)
+    top = helper.most_successful(df,selected_sport)
+    st.table(top)
