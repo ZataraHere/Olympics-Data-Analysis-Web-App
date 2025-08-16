@@ -166,7 +166,7 @@ if user_select == 'Athlete Wise Analysis':
     st.title("Distribution of Age wrt Sports(Gold Medalist)")
     st.plotly_chart(fig)
 
-    sport_list = df['Sport'].unique().tolist()
+    sport_list = df['Sport'].dropna().unique().tolist()
     sport_list.sort()
     sport_list.insert(0, 'Overall')
 
@@ -174,7 +174,7 @@ if user_select == 'Athlete Wise Analysis':
     selected_sport = st.selectbox('Select a Sport', sport_list)
     temp_df = helper.weight_v_height(df, selected_sport)
     fig,ax = plt.subplots()
-    ax = sns.scatterplot(temp_df['Weight'], temp_df['Height'], hue=temp_df['Medal'], style=temp_df['Sex'], s=60)
+    ax = sns.scatterplot([temp_df['Weight'], temp_df['Height']], s=60)
     st.pyplot(fig)
 
     st.title("Men Vs Women Participation Over the Years")
