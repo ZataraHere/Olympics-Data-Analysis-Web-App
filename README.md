@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Olympics Analysis Streamlit App</title>
-</head>
 <body>
 
   <h1>🏅 Olympics Analysis Streamlit App</h1>
@@ -101,4 +95,3 @@ services:
   <p>This project is licensed under the MIT License.</p>
 
 </body>
-</html>
